@@ -1,0 +1,9 @@
+{
+    "uuid": "@EXTENSION_UUID@",
+    "name": "@EXTENSION_NAME@",
+    "description": "An example of using libpeas with GNOME Shell extensions.",
+    "gettext-domain": "@GETTEXT_DOMAIN@",
+    "version": @EXTENSION_VERSION@,
+    "shell-version": ["42"],
+    "url": "https://github.com/andyholmes/gnome-shell-extension-beans"
+}
