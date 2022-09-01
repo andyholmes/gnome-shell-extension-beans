@@ -15,7 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Build
+      - name: Build Extension
         env:
           WORKSPACE: ${{ github.workspace }}
         run: |
@@ -26,3 +26,18 @@ jobs:
         with:
           name: nightly-build
           path: beans@andyholmes.ca.zip
+
+      - name: Build Plugin
+        run: |
+          meson setup --buildtype=debug \
+                -Dexample=true \
+                _build  && \
+          meson compile -C _build
+
+      - name: Upload Plugin
+        uses: actions/upload-artifact@v3
+        with:
+          name: example-plugin
+          path: |
+            _build/src/plugin/example.plugin
+            _build/src/plugin/libexample.so

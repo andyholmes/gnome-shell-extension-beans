@@ -97,14 +97,29 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Build
+      - name: Build Extension
         env:
           WORKSPACE: ${{ github.workspace }}
         run: |
           ./build-aux/misc/ego.sh
 
-      - name: Upload
+      - name: Upload Extension
         uses: actions/upload-artifact@v3
         with:
-          name: test-build
+          name: test-extension
           path: beans@andyholmes.ca.zip
+
+      - name: Build Plugin
+        run: |
+          meson setup --buildtype=debug \
+                -Dexample=true \
+                _build  && \
+          meson compile -C _build
+
+      - name: Upload Plugin
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-plugin
+          path: |
+            _build/src/plugin/example.plugin
+            _build/src/plugin/libexample.so
