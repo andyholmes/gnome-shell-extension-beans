@@ -47,7 +47,7 @@ var ActorTroupe = GObject.registerClass({
     }
 
     #onUnloadPlugin(engine, pluginInfo) {
-        if (!engine.provides_extension(pluginInfo, Clutter.Container))
+        if (!this.#actors.has(pluginInfo))
             return;
 
         const { actor, handlerIds } = this.#actors.get(pluginInfo);
@@ -75,8 +75,8 @@ var ActorTroupe = GObject.registerClass({
             this.#engine.disconnect(handlerId);
         this.#engineHandlerIds = [];
 
-        for (const { actor } of this.#actors.values())
-            this.#onUnloadPlugin(this.#engine, actor.plugin_info);
+        for (const pluginInfo of this.#actors.keys())
+            this.#onUnloadPlugin(this.#engine, pluginInfo);
         this.#actors.clear();
     }
 

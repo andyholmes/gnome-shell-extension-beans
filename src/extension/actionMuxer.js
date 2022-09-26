@@ -48,7 +48,7 @@ var ActionMuxer = GObject.registerClass({
     }
 
     #onUnloadPlugin(engine, pluginInfo) {
-        if (!engine.provides_extension(pluginInfo, Gio.ActionGroup))
+        if (!this.#actionGroups.has(pluginInfo.get_module_name()))
             return;
 
         const moduleName = pluginInfo.get_module_name();
