@@ -9,7 +9,7 @@ jobs:
     name: Extension
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/andyholmes/gnome-shell-extension-beans:latest
+      image: ghcr.io/${{ github.repository }}:${{ github.ref_name}}
 
     steps:
       - name: Checkout

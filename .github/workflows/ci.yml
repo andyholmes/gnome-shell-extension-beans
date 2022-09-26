@@ -91,7 +91,7 @@ jobs:
     needs: [pre-test]
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/andyholmes/gnome-shell-extension-beans:latest
+      image: ghcr.io/${{ github.repository }}:${{ github.base_ref }}
 
     steps:
       - name: Checkout
