@@ -21,7 +21,7 @@ var Activator = GObject.registerClass({
         this.#activatables = new Map();
     }
 
-    get actors() {
+    get activatables() {
         return Array.from(this.#activatables.values());
     }
 
