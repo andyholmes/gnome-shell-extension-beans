@@ -14,7 +14,7 @@ struct _BeansActionsPlugin
   PeasPluginInfo     *plugin_info;
 };
 
-G_DEFINE_TYPE (BeansActionsPlugin, beans_actions_plugin, G_TYPE_SIMPLE_ACTION_GROUP)
+G_DEFINE_DYNAMIC_TYPE (BeansActionsPlugin, beans_actions_plugin, G_TYPE_SIMPLE_ACTION_GROUP)
 
 enum {
   PROP_0,
@@ -96,11 +96,26 @@ beans_actions_plugin_class_init (BeansActionsPluginClass *klass)
 }
 
 static void
+beans_actions_plugin_class_finalize (BeansActionsPluginClass *klass)
+{
+}
+
+static void
 beans_actions_plugin_init (BeansActionsPlugin *self)
 {
   g_action_map_add_action_entries (G_ACTION_MAP (self),
                                    actions,
                                    G_N_ELEMENTS (actions),
                                    self);
+}
+
+void
+beans_actions_plugin_register_types (PeasObjectModule *module)
+{
+  beans_actions_plugin_register_type (G_TYPE_MODULE (module));
+
+  peas_object_module_register_extension_type (module,
+                                              G_TYPE_ACTION_GROUP,
+                                              BEANS_TYPE_ACTIONS_PLUGIN);
 }
 

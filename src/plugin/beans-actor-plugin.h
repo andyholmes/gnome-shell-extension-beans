@@ -12,5 +12,7 @@ G_BEGIN_DECLS
 
 G_DECLARE_FINAL_TYPE (BeansActorPlugin, beans_actor_plugin, BEANS, ACTOR_PLUGIN, ClutterActor)
 
+void   beans_actor_plugin_register_types (PeasObjectModule *module);
+
 G_END_DECLS
 
