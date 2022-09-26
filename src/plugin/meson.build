@@ -7,7 +7,7 @@ pkgconfig = import('pkgconfig')
 plugins_deps = [
   dependency('gio-2.0', version: '>= 2.66.0'),
   dependency('libpeas-1.0', version: '>= 1.22.0'),
-  dependency('mutter-clutter-10', version: '>= 42.0'),
+  dependency('mutter-clutter-11', version: '>= 43.0'),
 ]
 
 plugins_c_args = [

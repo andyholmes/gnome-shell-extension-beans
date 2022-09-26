@@ -3,7 +3,7 @@
 
 #include <gio/gio.h>
 #include <libpeas/peas.h>
-#include <mutter-10/clutter/clutter/clutter.h>
+#include <mutter-11/clutter/clutter/clutter.h>
 
 #include "beans-actor.h"
 
