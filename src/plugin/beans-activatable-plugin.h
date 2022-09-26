@@ -11,5 +11,7 @@ G_BEGIN_DECLS
 
 G_DECLARE_FINAL_TYPE (BeansActivatablePlugin, beans_activatable_plugin, BEANS, ACTIVATABLE_PLUGIN, PeasExtensionBase)
 
+void   beans_activatable_plugin_register_types (PeasObjectModule *module);
+
 G_END_DECLS
 

@@ -15,7 +15,7 @@ struct _BeansActorPlugin
   PeasPluginInfo *plugin_info;
 };
 
-G_DEFINE_TYPE (BeansActorPlugin, beans_actor_plugin, CLUTTER_TYPE_ACTOR)
+G_DEFINE_DYNAMIC_TYPE (BeansActorPlugin, beans_actor_plugin, CLUTTER_TYPE_ACTOR)
 
 enum {
   PROP_0,
@@ -97,7 +97,22 @@ beans_actor_plugin_class_init (BeansActorPluginClass *klass)
 }
 
 static void
+beans_actor_plugin_class_finalize (BeansActorPluginClass *klass)
+{
+}
+
+static void
 beans_actor_plugin_init (BeansActorPlugin *self)
 {
+}
+
+void
+beans_actor_plugin_register_types (PeasObjectModule *module)
+{
+  beans_actor_plugin_register_type (G_TYPE_MODULE (module));
+
+  peas_object_module_register_extension_type (module,
+                                              CLUTTER_TYPE_CONTAINER,
+                                              BEANS_TYPE_ACTOR_PLUGIN);
 }
 

@@ -12,15 +12,7 @@
 G_MODULE_EXPORT void
 peas_register_types (PeasObjectModule *module)
 {
-  peas_object_module_register_extension_type (module,
-                                              G_TYPE_ACTION_GROUP,
-                                              BEANS_TYPE_ACTIONS_PLUGIN);
-
-  peas_object_module_register_extension_type (module,
-                                              PEAS_TYPE_ACTIVATABLE,
-                                              BEANS_TYPE_ACTIVATABLE_PLUGIN);
-
-  peas_object_module_register_extension_type (module,
-                                              CLUTTER_TYPE_CONTAINER,
-                                              BEANS_TYPE_ACTOR_PLUGIN);
+  beans_actions_plugin_register_types (module);
+  beans_activatable_plugin_register_types (module);
+  beans_actor_plugin_register_types (module);
 }

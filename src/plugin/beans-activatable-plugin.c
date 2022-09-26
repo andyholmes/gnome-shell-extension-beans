@@ -16,16 +16,14 @@ struct _BeansActivatablePlugin
 
 static void   peas_activatable_iface_init (PeasActivatableInterface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (BeansActivatablePlugin, beans_activatable_plugin, PEAS_TYPE_EXTENSION_BASE,
-                         G_IMPLEMENT_INTERFACE (PEAS_TYPE_ACTIVATABLE, peas_activatable_iface_init))
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (BeansActivatablePlugin, beans_activatable_plugin, PEAS_TYPE_EXTENSION_BASE,
+                                0,
+                                G_IMPLEMENT_INTERFACE_DYNAMIC (PEAS_TYPE_ACTIVATABLE, peas_activatable_iface_init))
 
 enum {
   PROP_0,
-  PROP_OBJECT,
-  N_PROPERTIES
+  PROP_OBJECT
 };
-
-static GParamSpec *properties[N_PROPERTIES] = { NULL, };
 
 
 static void
@@ -54,16 +52,6 @@ peas_activatable_iface_init (PeasActivatableInterface *iface)
   iface->update_state = beans_activatable_plugin_update_state;
 }
 
-
-static void
-beans_activatable_plugin_dispose (GObject *object)
-{
-  BeansActivatablePlugin *self = BEANS_ACTIVATABLE_PLUGIN (object);
-
-  g_clear_object (&self->object);
-
-  G_OBJECT_CLASS (beans_activatable_plugin_parent_class)->dispose (object);
-}
 
 static void
 beans_activatable_plugin_get_property (GObject    *object,
@@ -95,7 +83,7 @@ beans_activatable_plugin_set_property (GObject      *object,
   switch (prop_id)
     {
     case PROP_OBJECT:
-      self->object = g_value_dup_object (value);
+      self->object = g_value_get_object (value);
       break;
 
     default:
@@ -104,27 +92,33 @@ beans_activatable_plugin_set_property (GObject      *object,
 }
 
 static void
+beans_activatable_plugin_class_finalize (BeansActivatablePluginClass *klass)
+{
+}
+
+static void
 beans_activatable_plugin_class_init (BeansActivatablePluginClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-  object_class->dispose = beans_activatable_plugin_dispose;
   object_class->get_property = beans_activatable_plugin_get_property;
   object_class->set_property = beans_activatable_plugin_set_property;
 
-  properties [PROP_OBJECT] =
-    g_param_spec_object ("object", NULL, NULL,
-                         G_TYPE_OBJECT,
-                         (G_PARAM_READWRITE |
-                          G_PARAM_CONSTRUCT_ONLY |
-                          G_PARAM_EXPLICIT_NOTIFY |
-                          G_PARAM_STATIC_STRINGS));
-
-  g_object_class_install_properties (object_class, N_PROPERTIES, properties);
+  g_object_class_override_property (object_class, PROP_OBJECT, "object");
 }
 
 static void
 beans_activatable_plugin_init (BeansActivatablePlugin *self)
 {
+}
+
+void
+beans_activatable_plugin_register_types (PeasObjectModule *module)
+{
+  beans_activatable_plugin_register_type (G_TYPE_MODULE (module));
+
+  peas_object_module_register_extension_type (module,
+                                              PEAS_TYPE_ACTIVATABLE,
+                                              BEANS_TYPE_ACTIVATABLE_PLUGIN);
 }
 

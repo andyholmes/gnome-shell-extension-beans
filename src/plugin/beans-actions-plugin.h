@@ -11,5 +11,7 @@ G_BEGIN_DECLS
 
 G_DECLARE_FINAL_TYPE (BeansActionsPlugin, beans_actions_plugin, BEANS, ACTIONS_PLUGIN, GSimpleActionGroup)
 
+void   beans_actions_plugin_register_types (PeasObjectModule *module);
+
 G_END_DECLS
 
