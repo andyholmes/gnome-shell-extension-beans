@@ -8,11 +8,11 @@
 
 G_BEGIN_DECLS
 
-#define BEANS_TYPE_ACTOR_PLUGIN (beans_actor_plugin_get_type ())
+#define BEANS_TYPE_ACTOR (beans_actor_get_type ())
 
-G_DECLARE_FINAL_TYPE (BeansActorPlugin, beans_actor_plugin, BEANS, ACTOR_PLUGIN, ClutterActor)
+G_DECLARE_FINAL_TYPE (BeansActor, beans_actor, BEANS, ACTOR, ClutterActor)
 
-void   beans_actor_plugin_register_types (PeasObjectModule *module);
+void   beans_actor_register_types (PeasObjectModule *module);
 
 G_END_DECLS
 

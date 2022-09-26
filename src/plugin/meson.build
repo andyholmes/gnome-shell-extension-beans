@@ -19,9 +19,9 @@ plugins_link_args = []
 
 plugin_sources = files([
   'example-plugin.c',
-  'beans-actions-plugin.c',
-  'beans-activatable-plugin.c',
-  'beans-actor-plugin.c',
+  'beans-action-group.c',
+  'beans-activatable.c',
+  'beans-actor.c',
 ])
 
 plugin_info = configure_file(

@@ -29,19 +29,19 @@ There are also nightly builds available for [download][nightly-build].
 
 Beans includes an example plugin with three extensions:
 
-* `BeansActionsPlugin`: A `Gio.SimpleActionGroup` subclass
+* `BeansActionGroup`: A `Gio.SimpleActionGroup` subclass
 
     Beans is setup to load `Gio.ActionGroup` implementations and aggregate them
     with a simple `Gio.ActionGroup` muxer, [`actionMuxer.js`][action-muxer].
     
-* `BeansActivatablePlugin`: An implementation of `Peas.Activatable`
+* `BeansActivatable`: An implementation of `Peas.Activatable`
 
     Beans will load each extension implementing `Peas.Activatable` into
     [`activator.js`][activator]. It will call `Peas.Activatable.activate()` when
     the GNOME Shell extension is enabled, and `Peas.Activatable.deactivate()`
     when it is disabled.
     
-* `BeansActorPlugin`: A `Clutter.Actor` subclass
+* `BeansActor`: A `Clutter.Actor` subclass
 
     Beans will load each extension implementing `Clutter.Container` into
     [`actorTroupe.js`][actor-troupe]. It creates an instance of the actor and
