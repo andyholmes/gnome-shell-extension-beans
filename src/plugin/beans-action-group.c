@@ -4,17 +4,17 @@
 #include <gio/gio.h>
 #include <libpeas/peas.h>
 
-#include "beans-actions-plugin.h"
+#include "beans-action-group.h"
 
 
-struct _BeansActionsPlugin
+struct _BeansActionGroup
 {
   GSimpleActionGroup  parent_instance;
 
   PeasPluginInfo     *plugin_info;
 };
 
-G_DEFINE_DYNAMIC_TYPE (BeansActionsPlugin, beans_actions_plugin, G_TYPE_SIMPLE_ACTION_GROUP)
+G_DEFINE_DYNAMIC_TYPE (BeansActionGroup, beans_action_group, G_TYPE_SIMPLE_ACTION_GROUP)
 
 enum {
   PROP_0,
@@ -26,25 +26,25 @@ static GParamSpec *properties[N_PROPERTIES] = { NULL, };
 
 
 static void
-beans_actions_plugin_test_action (GSimpleAction *action,
-                                  GVariant      *parameter,
-                                  gpointer       user_data)
+beans_action_group_test_action (GSimpleAction *action,
+                                GVariant      *parameter,
+                                gpointer       user_data)
 {
   g_message ("%s()", G_STRFUNC);
 }
 
 static const GActionEntry actions[] = {
-  {"test", beans_actions_plugin_test_action, NULL, NULL, NULL},
+  {"test", beans_action_group_test_action, NULL, NULL, NULL},
 };
 
 
 static void
-beans_actions_plugin_get_property (GObject    *object,
-                                   guint       prop_id,
-                                   GValue     *value,
-                                   GParamSpec *pspec)
+beans_action_group_get_property (GObject    *object,
+                                 guint       prop_id,
+                                 GValue     *value,
+                                 GParamSpec *pspec)
 {
-  BeansActionsPlugin *self = BEANS_ACTIONS_PLUGIN (object);
+  BeansActionGroup *self = BEANS_ACTION_GROUP (object);
 
   switch (prop_id)
     {
@@ -58,12 +58,12 @@ beans_actions_plugin_get_property (GObject    *object,
 }
 
 static void
-beans_actions_plugin_set_property (GObject      *object,
-                                   guint         prop_id,
-                                   const GValue *value,
-                                   GParamSpec   *pspec)
+beans_action_group_set_property (GObject      *object,
+                                 guint         prop_id,
+                                 const GValue *value,
+                                 GParamSpec   *pspec)
 {
-  BeansActionsPlugin *self = BEANS_ACTIONS_PLUGIN (object);
+  BeansActionGroup *self = BEANS_ACTION_GROUP (object);
 
   switch (prop_id)
     {
@@ -77,12 +77,17 @@ beans_actions_plugin_set_property (GObject      *object,
 }
 
 static void
-beans_actions_plugin_class_init (BeansActionsPluginClass *klass)
+beans_action_group_class_finalize (BeansActionGroupClass *klass)
+{
+}
+
+static void
+beans_action_group_class_init (BeansActionGroupClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-  object_class->get_property = beans_actions_plugin_get_property;
-  object_class->set_property = beans_actions_plugin_set_property;
+  object_class->get_property = beans_action_group_get_property;
+  object_class->set_property = beans_action_group_set_property;
 
   properties [PROP_PLUGIN_INFO] =
     g_param_spec_boxed ("plugin-info", NULL, NULL,
@@ -96,12 +101,7 @@ beans_actions_plugin_class_init (BeansActionsPluginClass *klass)
 }
 
 static void
-beans_actions_plugin_class_finalize (BeansActionsPluginClass *klass)
-{
-}
-
-static void
-beans_actions_plugin_init (BeansActionsPlugin *self)
+beans_action_group_init (BeansActionGroup *self)
 {
   g_action_map_add_action_entries (G_ACTION_MAP (self),
                                    actions,
@@ -110,12 +110,12 @@ beans_actions_plugin_init (BeansActionsPlugin *self)
 }
 
 void
-beans_actions_plugin_register_types (PeasObjectModule *module)
+beans_action_group_register_types (PeasObjectModule *module)
 {
-  beans_actions_plugin_register_type (G_TYPE_MODULE (module));
+  beans_action_group_register_type (G_TYPE_MODULE (module));
 
   peas_object_module_register_extension_type (module,
                                               G_TYPE_ACTION_GROUP,
-                                              BEANS_TYPE_ACTIONS_PLUGIN);
+                                              BEANS_TYPE_ACTION_GROUP);
 }
 

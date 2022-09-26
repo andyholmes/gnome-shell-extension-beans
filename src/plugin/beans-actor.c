@@ -5,17 +5,17 @@
 #include <libpeas/peas.h>
 #include <mutter-10/clutter/clutter/clutter.h>
 
-#include "beans-actor-plugin.h"
+#include "beans-actor.h"
 
 
-struct _BeansActorPlugin
+struct _BeansActor
 {
   ClutterActor    parent_instance;
 
   PeasPluginInfo *plugin_info;
 };
 
-G_DEFINE_DYNAMIC_TYPE (BeansActorPlugin, beans_actor_plugin, CLUTTER_TYPE_ACTOR)
+G_DEFINE_DYNAMIC_TYPE (BeansActor, beans_actor, CLUTTER_TYPE_ACTOR)
 
 enum {
   PROP_0,
@@ -27,24 +27,24 @@ static GParamSpec *properties[N_PROPERTIES] = { NULL, };
 
 
 static void
-beans_actor_plugin_constructed (GObject *object)
+beans_actor_constructed (GObject *object)
 {
-  BeansActorPlugin *self = BEANS_ACTOR_PLUGIN (object);
+  BeansActor *self = BEANS_ACTOR (object);
 
   // HACK: ClutterActor is derived from GInitiallyUnowned (i.e. floating), but
   //       the reference is somehow dropped by the time it's passed to GJS.
   g_object_ref_sink (self);
 
-  G_OBJECT_CLASS (beans_actor_plugin_parent_class)->constructed (object);
+  G_OBJECT_CLASS (beans_actor_parent_class)->constructed (object);
 }
 
 static void
-beans_actor_plugin_get_property (GObject    *object,
-                                 guint       prop_id,
-                                 GValue     *value,
-                                 GParamSpec *pspec)
+beans_actor_get_property (GObject    *object,
+                          guint       prop_id,
+                          GValue     *value,
+                          GParamSpec *pspec)
 {
-  BeansActorPlugin *self = BEANS_ACTOR_PLUGIN (object);
+  BeansActor *self = BEANS_ACTOR (object);
 
   switch (prop_id)
     {
@@ -58,12 +58,12 @@ beans_actor_plugin_get_property (GObject    *object,
 }
 
 static void
-beans_actor_plugin_set_property (GObject      *object,
-                                 guint         prop_id,
-                                 const GValue *value,
-                                 GParamSpec   *pspec)
+beans_actor_set_property (GObject      *object,
+                          guint         prop_id,
+                          const GValue *value,
+                          GParamSpec   *pspec)
 {
-  BeansActorPlugin *self = BEANS_ACTOR_PLUGIN (object);
+  BeansActor *self = BEANS_ACTOR (object);
 
   switch (prop_id)
     {
@@ -77,13 +77,18 @@ beans_actor_plugin_set_property (GObject      *object,
 }
 
 static void
-beans_actor_plugin_class_init (BeansActorPluginClass *klass)
+beans_actor_class_finalize (BeansActorClass *klass)
+{
+}
+
+static void
+beans_actor_class_init (BeansActorClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-  object_class->constructed = beans_actor_plugin_constructed;
-  object_class->get_property = beans_actor_plugin_get_property;
-  object_class->set_property = beans_actor_plugin_set_property;
+  object_class->constructed = beans_actor_constructed;
+  object_class->get_property = beans_actor_get_property;
+  object_class->set_property = beans_actor_set_property;
 
   properties [PROP_PLUGIN_INFO] =
     g_param_spec_boxed ("plugin-info", NULL, NULL,
@@ -97,22 +102,17 @@ beans_actor_plugin_class_init (BeansActorPluginClass *klass)
 }
 
 static void
-beans_actor_plugin_class_finalize (BeansActorPluginClass *klass)
-{
-}
-
-static void
-beans_actor_plugin_init (BeansActorPlugin *self)
+beans_actor_init (BeansActor *self)
 {
 }
 
 void
-beans_actor_plugin_register_types (PeasObjectModule *module)
+beans_actor_register_types (PeasObjectModule *module)
 {
-  beans_actor_plugin_register_type (G_TYPE_MODULE (module));
+  beans_actor_register_type (G_TYPE_MODULE (module));
 
   peas_object_module_register_extension_type (module,
                                               CLUTTER_TYPE_CONTAINER,
-                                              BEANS_TYPE_ACTOR_PLUGIN);
+                                              BEANS_TYPE_ACTOR);
 }
 
