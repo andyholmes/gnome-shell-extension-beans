@@ -37,7 +37,7 @@ var Activator = GObject.registerClass({
     }
 
     #onUnloadPlugin(engine, pluginInfo) {
-        if (!engine.provides_extension(pluginInfo, Peas.Activatable))
+        if (!this.#activatables.has(pluginInfo))
             return;
 
         const plugin = this.#activatables.get(pluginInfo);
