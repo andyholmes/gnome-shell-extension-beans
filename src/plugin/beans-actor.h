@@ -4,7 +4,7 @@
 #pragma once
 
 #include <libpeas/peas.h>
-#include <mutter-10/clutter/clutter/clutter.h>
+#include <mutter-11/clutter/clutter/clutter.h>
 
 G_BEGIN_DECLS
 
